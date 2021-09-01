@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://${creds.username}:${creds.password}@localhost:27017/demo-database?authSource=admin

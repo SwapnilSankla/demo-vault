@@ -1,0 +1,34 @@
+version: '3.0'
+
+services:
+  vault:
+    image: vault
+    container_name: demo-vault
+    ports:
+    - 8200:8200
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: myroot
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+      VAULT_ADDR: http://127.0.0.1:8200
+
+  mongo:
+    image: mongo
+    ports:
+    - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: super-user
+
+  mongo-express:
+    depends_on:
+      - mongo
+    image: mongo-express:0.54.0
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_AUTH_DATABASE: admin
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: super-user
